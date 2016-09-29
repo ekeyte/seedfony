@@ -1,0 +1,33 @@
+---
+# tasks file for common
+- name: Update all Debian/Ubuntu hosts
+  apt: upgrade=dist update_cache=yes
+  when: ansible_os_family == "Debian"
+
+- name: Update all RedHat/CentOS hosts
+  yum: name=* state=latest update_cache=yes
+  when: ansible_os_family == "RedHat"
+
+- name: Install basic packages
+  apt: name={{ item }} state=latest update_cache=yes
+  with_items:
+    - python-pip
+    - vim
+    - htop
+    - iotop
+    - iftop
+    - ansible
+    - sysstat
+    - curl
+    - git
+    - git-core
+    - tcpdump
+    - memstat
+    - tree
+    - wget
+    - ntp
+    - ntpdate
+    - nmap
+    - mtr
+    - traceroute
+    - python-pip

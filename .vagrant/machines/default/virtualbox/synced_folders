@@ -1,0 +1,1 @@
+{"virtualbox":{"/var/www/seedfony":{"guestpath":"/var/www/seedfony","hostpath":"/Users/ekeyte/Documents/Projects/seedfony/seedfony","disabled":false,"__vagrantfile":true},"/vagrant":{"guestpath":"/vagrant","hostpath":"/Users/ekeyte/Documents/Projects/seedfony","disabled":false,"__vagrantfile":true}}}

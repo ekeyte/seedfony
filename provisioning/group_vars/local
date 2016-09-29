@@ -1,0 +1,8 @@
+nginx_user: nginx
+mysql_db: seedfony
+mysql_root_user: root
+mysql_root_password: root
+mysql_user: vagrant
+mysql_password: root
+mysql_host: 3306
+APP_ENV: local

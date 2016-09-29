@@ -1,0 +1,46 @@
+server {
+    listen 80 default_server;
+    server_name _; # This is just an invalid value which will never trigger on a real hostname.
+    access_log /var/log/nginx/default.access.log;
+    server_name_in_redirect off;
+    root  /usr/share/nginx/html;
+}
+
+# SEEDFONY SERVER
+server {
+    listen 80;
+
+    # Make site accessible from http://seedfony.vm/
+    server_name seedfony.vm;
+
+    # Document root.
+    root /var/www/seedfony/web;
+
+    index index.php index.html index.htm;
+
+    error_log /var/log/nginx/{{ app_env }}_seedfony.error.log;
+    access_log /var/log/nginx/{{ app_env }}_seedfony.access.log;
+
+    # Disable logging for these two annoying things.
+    location = /favicon.ico { access_log off; log_not_found off; }
+    location = /robots.txt  { access_log off; log_not_found off; }
+
+    # Root location
+    location / {
+       try_files $uri /app.php$is_args$args;
+    }
+
+    {% if APP_ENV == "local" %}
+    location ~ ^/(app|app_dev|config)\.php(/|$) {
+        fastcgi_split_path_info ^(.+\.php)(/.+)$;
+        fastcgi_pass unix:/var/run/seedfony.sock;
+        include fastcgi_params;
+    }
+    {% else %}
+    location ~ ^/(app)\.php(/|$) {
+        fastcgi_split_path_info ^(.+\.php)(/.+)$;
+        fastcgi_pass unix:/var/run/seedfony.sock;
+        include fastcgi_params;
+    }
+    {% endif %}
+}

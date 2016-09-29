@@ -1,0 +1,12 @@
+{
+    "name": "ekeyte/seedfony",
+    "description": "A PHP7, Symfony3, MySQL seed project in a Vagrant box, provisioned by Ansible.",
+    "license": "GNU",
+    "authors": [
+        {
+            "name": "Eric Keyte",
+            "email": "ekeyte@gmail.com"
+        }
+    ],
+    "require": {}
+}

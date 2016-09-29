@@ -1,0 +1,6 @@
+---
+# tasks file for local
+- include: php.yml
+- include: mysql57.yml
+- include: nginx.yml
+- include: seedfony.yml

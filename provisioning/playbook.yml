@@ -1,0 +1,12 @@
+# Ansible Playbook for DEVOPS
+---
+- name: Seedfony by Eric Keyte
+  hosts: local
+  remote_user: vagrant
+  become: yes
+  become_method: sudo
+  become_user: root
+  connection: ssh
+  roles:
+    - { role: common }
+    - { role: local }

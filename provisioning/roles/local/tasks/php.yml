@@ -1,0 +1,37 @@
+---
+# PHP Installation
+- name: Ensure PPAs
+  apt_repository: repo={{ item }} update_cache=yes
+  with_items:
+    - ppa:ondrej/php
+    - ppa:ansible/ansible
+
+- name: Set PPA Permissions
+  file: path="/etc/apt/sources.list.d/{{ item }}" owner=root group={{ ansible_user }} mode=0444
+  with_items:
+    - ppa_ondrej_php_trusty.list
+    - ppa_ansible_ansible_trusty.list
+
+- name: Upgrade apt
+  apt: update_cache=yes upgrade=yes
+
+- name: Install packages for PHP7
+  action: apt pkg={{ item }} state=present
+  with_items:
+    - php7.1
+    - php7.1-common
+    - php7.1-dev
+    - libreadline-dev
+    - php7.1-readline
+    - php7.1-gd
+    - php7.1-curl
+    - php7.1-mysql
+    - php-apc
+    - php-soap
+    - php7.1-cli
+    - php7.1-intl
+    - php7.1-mcrypt
+    - php7.1-fpm
+    - php7.1-mbstring
+    - php7.1-xml
+

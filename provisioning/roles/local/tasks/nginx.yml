@@ -1,0 +1,43 @@
+---
+# Install nginx
+- name: Install nginx
+  apt: pkg=nginx state=present
+
+- name: Ensure nginx directories
+  file: path={{ item.path }} state=directory
+  with_items:
+    - { path: '/etc/php/7.1/fpm/pool.d' }
+    - { path: '/etc/nginx/sites-enabled/' }
+
+- name: Apply nginx server and virtualhost config templates
+  template: src={{ item.src }} dest={{ item.dest }}  mode=0644 owner=root group=root
+  with_items:
+    - { src: 'nginx/nginx.conf.j2', dest: '/etc/nginx/nginx.conf' }
+    #- { src: 'nginx/www.conf.j2', dest: '/etc/php/7.1/fpm/pool.d/www.conf' }
+    - { src: 'seedfony/seedfony_site.j2', dest: '/etc/nginx/sites-enabled/seedfony.conf' }
+    - { src: 'pools/seedfony.pool.j2', dest: '/etc/php/7.1/fpm/pool.d/seedfony.conf' }
+    - { src: 'php/php.ini.j2', dest: '/etc/php/7.1/fpm/php.ini' }
+
+- name: Remove default nginx configuration file
+  file: dest=/etc/nginx/sites-enabled/default state=absent
+
+- name: nginx user to own html directory
+  file: path=/usr/share/nginx/html owner="{{ nginx_user }}" group="{{ nginx_user }}" mode=0755
+
+- name: Remove nginx default web files
+  file: path=/usr/share/nginx/html/{{item}} state=absent
+  with_items:
+    - index.html
+    - 50x.html
+  ignore_errors: yes
+
+- name: ensure /var/www/.ssh exists
+  file: path={{ item }} state=directory owner="{{ nginx_user }}" group="{{ nginx_user }}" mode=0755
+  with_items:
+    - /var/www/.ssh
+
+- name: restart web server
+  service: name={{ item }} state=restarted enabled=yes
+  with_items:
+    - nginx
+    - php7.1-fpm

@@ -1,0 +1,4 @@
+---
+# Seedfony configuration
+- name: Seedfony vagrant welcome message
+  template: src=seedfony/motd.j2 dest=/etc/motd owner=root group=root mode=0644
