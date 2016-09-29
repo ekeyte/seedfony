@@ -1,3 +1,6 @@
+# Vagrant Box
+.vagrant
+
 # Cache and logs (Symfony2)
 /seedfony/app/cache/*
 /app/logs/*
