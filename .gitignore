@@ -1,5 +1,6 @@
 # Vagrant Box
 .vagrant
+provisioning/playbook.retry
 
 # Cache and logs (Symfony2)
 /seedfony/app/cache/*
